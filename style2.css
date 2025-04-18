@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  overflow-x: hidden;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 0;
+  background: linear-gradient(45deg, #ff00ff, #00ffff);
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.day-counter {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.instructions {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ff00ff;
+  margin: 1rem 0;
+}
+
+.content-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.runaway-text {
+  position: relative;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s ease, opacity 0.3s ease;
+  line-height: 1.6;
+}
+
+.runaway-text:nth-child(odd) {
+  border-left: 5px solid #ff00ff;
+}
+
+.runaway-text:nth-child(even) {
+  border-left: 5px solid #00ffff;
+}
+
+.secret-message {
+  text-align: center;
+  padding: 1rem;
+  background-color: #ffff88;
+  border: 2px dashed #ff00ff;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 2rem auto;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: #333;
+  color: white;
+  margin-top: 2rem;
+}
+
+.footer-link {
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+  color: #ff00ff;
+}
+
+.footer-text {
+  font-style: italic;
+}
+
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-10px, -10px) rotate(-3deg); }
+  40% { transform: translate(10px, -10px) rotate(3deg); }
+  60% { transform: translate(-10px, 10px) rotate(-3deg); }
+  80% { transform: translate(10px, 10px) rotate(3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}

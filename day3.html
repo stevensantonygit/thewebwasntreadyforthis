@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Web Wasn't Ready For This - Day 3</title>
+  <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+  <header>
+    <h1>The Web Wasn't Ready For This</h1>
+    <div class="day-counter">Day 3: Form From Hell</div>
+  </header>
+
+  <div class="instructions">Please complete this simple registration form. <span class="small-text">(Good luck with that!)</span></div>
+  
+  <div class="form-container">
+    <form id="hellForm">
+      <div class="form-group" data-field="name">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Your name">
+        <div class="error-message"></div>
+      </div>
+      
+      <div class="form-group" data-field="email">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Your email">
+        <div class="error-message"></div>
+      </div>
+      
+      <div class="form-group" data-field="password">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Create a password">
+        <div class="password-requirements">
+          <div class="requirement-title">Password must include:</div>
+          <ul id="passwordRequirements">
+            <li>At least 8 characters</li>
+            <li>One uppercase letter</li>
+            <li>One number</li>
+            <li>One special character</li>
+          </ul>
+        </div>
+        <div class="error-message"></div>
+      </div>
+      
+      <div class="form-group" data-field="confirm">
+        <label for="confirm">Confirm Password:</label>
+        <input type="password" id="confirm" name="confirm" placeholder="Confirm your password">
+        <div class="error-message"></div>
+      </div>
+      
+      <div class="form-group" data-field="birthday">
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" name="birthday">
+        <div class="error-message"></div>
+      </div>
+      
+      <div class="form-group" data-field="captcha">
+        <label for="captcha">Please solve this CAPTCHA:</label>
+        <div class="captcha-container">
+          <div id="captchaQuestion">What is 2 + 2?</div>
+          <input type="text" id="captcha" name="captcha" placeholder="Your answer">
+        </div>
+        <div class="error-message"></div>
+      </div>
+      
+      <div class="form-group terms" data-field="terms">
+        <input type="checkbox" id="terms" name="terms">
+        <label for="terms" id="termsLabel">I agree to the Terms & Conditions</label>
+        <div class="error-message"></div>
+      </div>
+      
+      <div class="submit-container">
+        <button type="submit" id="submitButton">
+          <span class="button-text">Submit</span>
+          <div class="loader"></div>
+        </button>
+      </div>
+    </form>
+    
+    <div id="successMessage" class="success-message">
+      <h2>Form Submitted Successfully!</h2>
+      <p>Just kidding. Did you really think this would work?</p>
+      <p>Nothing was submitted because this is the Form From Hell.</p>
+      <p>Congratulations on somehow getting this far!</p>
+    </div>
+  </div>
+
+  <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+
+  <footer>
+    <a href="day2.html" class="footer-link">← Day 2: Text That Runs Away</a>
+    <span class="footer-text">A journey into digital chaos</span>
+    <a href="day4.html" class="footer-link">Day 4: The Indecisive Checkbox →</a>
+  </footer>
+  <script src="script3.js"></script>
+</body>
+</html>

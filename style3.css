@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+
+    :root {
+      --primary-color: #ff00ff;
+      --secondary-color: #00ffff;
+      --error-color: #ff3333;
+      --success-color: #33ff33;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+    }
+    
+    header {
+      text-align: center;
+      padding: 2rem 0;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .day-counter {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .instructions {
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin: 1rem 0;
+    }
+    
+    .small-text {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+    
+    .form-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"] {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    }
+    
+    .error-message {
+      color: var(--error-color);
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+      min-height: 1.2rem;
+    }
+    
+    .password-requirements {
+      background-color: #f9f9f9;
+      padding: 0.8rem;
+      border-radius: 5px;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      border-left: 3px solid var(--secondary-color);
+    }
+    
+    .requirement-title {
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+    
+    #passwordRequirements {
+      padding-left: 1.5rem;
+      margin: 0.5rem 0;
+    }
+    
+    #passwordRequirements li {
+      margin-bottom: 0.3rem;
+    }
+    
+    .terms {
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .terms input {
+      margin-top: 0.2rem;
+      margin-right: 0.5rem;
+    }
+    
+    .terms label {
+      margin-bottom: 0;
+      flex: 1;
+    }
+    
+    .submit-container {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    
+    button[type="submit"] {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .button-text {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .loader {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+      z-index: 1;
+    }
+    
+    @keyframes spin {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+    
+    .loading .button-text {
+      opacity: 0;
+    }
+    
+    .loading .loader {
+      display: block;
+    }
+    
+    .captcha-container {
+      background-color: #f9f9f9;
+      padding: 0.8rem;
+      border-radius: 5px;
+      margin-bottom: 0.5rem;
+    }
+    
+    #captchaQuestion {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .autocomplete-dropdown {
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 0 0 5px 5px;
+      max-height: 150px;
+      overflow-y: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      display: none;
+    }
+    
+    .autocomplete-item {
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    
+    .autocomplete-item:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .success-message h2 {
+      color: var(--success-color);
+      margin-bottom: 1rem;
+    }
+    
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background-color: #333;
+      color: white;
+      margin-top: 2rem;
+    }
+    
+    .footer-link {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .footer-link:hover {
+      text-decoration: underline;
+      color: var(--primary-color);
+    }
+    
+    .footer-text {
+      font-style: italic;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    .loading-button {
+      background: linear-gradient(90deg, 
+        var(--primary-color), 
+        var(--secondary-color),
+        var(--primary-color)
+      );
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    
+    .shake {
+      animation: shake 0.5s ease;
+    }
+    
+    .randomize {
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }

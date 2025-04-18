@@ -1,0 +1,133 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    overflow: hidden;
+    cursor: url('/api/placeholder/24/24'), auto;
+  }
+  
+  .container {
+    text-align: center;
+  }
+  
+  h1 {
+    color: #ff00ff;
+    text-shadow: 3px 3px 0 #00ffff;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .button {
+    position: absolute;
+    padding: 15px 30px;
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+  }
+  
+  .button:active {
+    transform: scale(0.95);
+  }
+  
+  .insult {
+    position: fixed;
+    color: #ff00ff;
+    font-weight: bold;
+    font-size: 1.5rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 200;
+  }
+  
+  .spinning-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 20%, #f0f0f0 70%);
+    pointer-events: none;
+    z-index: -1;
+    animation: spin 20s linear infinite;
+    opacity: 0.1;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .clicks-counter {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 1.2rem;
+    color: #ff00ff;
+  }
+  
+  .victory-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: #ff00ff;
+    text-shadow: 3px 3px 0 #00ffff;
+    opacity: 0;
+    transition: opacity 1s;
+    pointer-events: none;
+    z-index: 300;
+  }
+
+  footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: #333;
+  color: white;
+  margin-top: 2rem;
+}
+
+.footer-link {
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+  color: #ff00ff;
+}
+
+.footer-text {
+  font-style: italic;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1;
+}
