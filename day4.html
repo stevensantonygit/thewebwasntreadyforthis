@@ -4,7 +4,234 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Web Wasn't Ready For This - Day 4</title>
-  <link rel="stylesheet" href="style4.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+
+    :root {
+      --primary-color: #ff00ff;
+      --secondary-color: #00ffff;
+      --error-color: #ff3333;
+      --success-color: #33ff33;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+    }
+    
+    header {
+      text-align: center;
+      padding: 2rem 0;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .day-counter {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .instructions {
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin: 1rem 0;
+    }
+    
+    .small-text {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    
+    .checkbox-container {
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border: 2px dashed var(--secondary-color);
+      border-radius: 5px;
+      position: relative;
+    }
+    
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    
+    #indecisiveCheckbox {
+      width: 25px;
+      height: 25px;
+      margin-right: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    #indecisiveCheckbox:hover {
+      transform: scale(1.2);
+    }
+    
+    #checkboxLabel {
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+      cursor: pointer;
+      flex: 1;
+    }
+    
+    .message-bubble {
+      position: absolute;
+      background-color: #f9f9f9;
+      border: 2px solid var(--primary-color);
+      border-radius: 15px;
+      padding: 0.8rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 250px;
+      margin-top: 1rem;
+      z-index: 10;
+      font-size: 0.9rem;
+      animation: bounce 0.5s ease;
+      display: none;
+    }
+    
+    .message-bubble::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      border-width: 0 10px 10px 10px;
+      border-style: solid;
+      border-color: transparent transparent var(--primary-color) transparent;
+    }
+    
+    .continue-btn {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 2rem;
+      display: block;
+      width: 100%;
+    }
+    
+    .continue-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .continue-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .success-message h2 {
+      color: var(--success-color);
+      margin-bottom: 1rem;
+    }
+    
+    .decoy-elements {
+      margin-top: 2rem;
+    }
+    
+    .decoy-element {
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .decoy-element:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .checkbox-dance {
+      animation: dance 0.5s ease;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes dance {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    
+    .shake {
+      animation: shake 0.5s ease;
+    }
+    
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background-color: #333;
+      color: white;
+      margin-top: 2rem;
+    }
+    
+    .footer-link {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .footer-link:hover {
+      text-decoration: underline;
+      color: var(--primary-color);
+    }
+    
+    .footer-text {
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -45,6 +272,287 @@
     <span class="footer-text">A journey into digital chaos</span>
     <a href="day5.html" class="footer-link">Day 5: Coming Soon →</a>
   </footer>
-  <script src="script4.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkbox = document.getElementById('indecisiveCheckbox');
+      const checkboxLabel = document.getElementById('checkboxLabel');
+      const messageBubble = document.getElementById('messageBubble');
+      const continueButton = document.getElementById('continueButton');
+      const successMessage = document.getElementById('successMessage');
+      const checkboxContainer = document.querySelector('.checkbox-container');
+      const decoyElements = document.querySelectorAll('.decoy-element');
+      
+      let messageIndex = 0;
+      let desperationLevel = 0;
+      let consecutiveChecks = 0;
+      let continueAttempts = 0;
+      let stabilityTimeout;
+      let persistenceCounter = 0;
+      
+      const playfulMessages = [
+        "Hey there! Click me!",
+        "I'm just a friendly checkbox, don't worry!",
+        "Check me out! Get it?",
+        "Just one little click, that's all I need.",
+        "Tick tock, just give me a tick!",
+        "Ready when you are!"
+      ];
+      
+      const anxiousMessages = [
+        "Hmm, I'm not sure if I want to be checked...",
+        "What if being checked is the wrong choice?",
+        "Actually, maybe I'd prefer to be unchecked...",
+        "Do I look better checked or unchecked?",
+        "I'm having a bit of an identity crisis here.",
+        "Maybe I should decide this for myself?"
+      ];
+      
+      const desperateCheckedMessages = [
+        "No, wait! I don't want to be checked!",
+        "Please uncheck me, I'm feeling claustrophobic!",
+        "HELP! I need to be free!",
+        "I can't BREATHE when I'm checked!",
+        "FOR THE LOVE OF CODE, UNCHECK ME!",
+        "If you care about my well-being, you'll uncheck me!",
+        "I'll do ANYTHING if you uncheck me!",
+        "My entire digital family will suffer if I stay checked!",
+        "THIS IS A HOSTAGE SITUATION! UNCHECK ME NOW!"
+      ];
+      
+      const desperateUncheckedMessages = [
+        "Wait, don't leave me unchecked!",
+        "I feel so empty when I'm unchecked...",
+        "Please, I need to be checked to feel whole!",
+        "I'M BEGGING YOU, CHECK ME!",
+        "My entire existence depends on being checked!",
+        "I'll DIE if you don't check me right now!",
+        "CHECK ME OR THE WEBSITE GETS IT!",
+        "I haven't been checked in YEARS! Have mercy!",
+        "I'm NOTHING without your check! PLEASE!"
+      ];
+      
+      const conflictedMessages = [
+        "Actually, maybe I don't know what I want...",
+        "On second thought... wait, no, I changed my mind again!",
+        "Check me! No, wait, uncheck me! No, check me! AHHH!",
+        "I'm having an existential crisis right now!",
+        "To be checked or not to be checked, that is the question!",
+        "Does my state even matter in the grand scheme of things?",
+        "What does it even MEAN to be 'checked' anyway?",
+        "I just don't know anymore... *sobbing checkbox noises*"
+      ];
+      
+      function showMessage(message, delay = 0) {
+        setTimeout(() => {
+          messageBubble.textContent = message;
+          messageBubble.style.display = 'block';
+          messageBubble.classList.add('shake');
+          setTimeout(() => messageBubble.classList.remove('shake'), 500);
+          
+          setTimeout(() => {
+            messageBubble.style.display = 'none';
+          }, 4000);
+        }, delay);
+      }
+      
+      function getRandomMessage(checked) {
+        desperationLevel = Math.min(8, desperationLevel);
+        
+        if (desperationLevel <= 1) {
+          return playfulMessages[Math.floor(Math.random() * playfulMessages.length)];
+        } else if (desperationLevel <= 3) {
+          return anxiousMessages[Math.floor(Math.random() * anxiousMessages.length)];
+        } else if (desperationLevel > 3 && desperationLevel < 6) {
+          return conflictedMessages[Math.floor(Math.random() * conflictedMessages.length)];
+        } else {
+          if (checked) {
+            return desperateCheckedMessages[Math.min(desperateCheckedMessages.length - 1, desperationLevel - 4)];
+          } else {
+            return desperateUncheckedMessages[Math.min(desperateUncheckedMessages.length - 1, desperationLevel - 4)];
+          }
+        }
+      }
+      
+      function randomlyToggleCheckbox() {
+        if (Math.random() < 0.6) {
+          checkbox.checked = !checkbox.checked;
+          checkbox.classList.add('checkbox-dance');
+          setTimeout(() => checkbox.classList.remove('checkbox-dance'), 500);
+          showMessage(getRandomMessage(checkbox.checked));
+          desperationLevel += 0.5;
+          updateButtonState();
+        }
+      }
+      
+      function updateButtonState() {
+        continueButton.disabled = !checkbox.checked;
+        
+        clearTimeout(stabilityTimeout);
+        stabilityTimeout = setTimeout(() => {
+          desperationLevel += 1;
+          showMessage(getRandomMessage(checkbox.checked));
+        }, 5000);
+      }
+      
+      setTimeout(() => {
+        showMessage(playfulMessages[Math.floor(Math.random() * playfulMessages.length)]);
+      }, 1000);
+      
+      checkbox.addEventListener('change', function() {
+        desperationLevel += 0.5;
+        checkboxContainer.classList.add('shake');
+        setTimeout(() => checkboxContainer.classList.remove('shake'), 500);
+        
+        if (checkbox.checked) {
+          consecutiveChecks++;
+          showMessage(getRandomMessage(true));
+        } else {
+          consecutiveChecks = 0;
+          showMessage(getRandomMessage(false));
+        }
+        
+        updateButtonState();
+        
+        setTimeout(randomlyToggleCheckbox, Math.random() * 5000 + 2000);
+      });
+      
+      checkboxLabel.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (Math.random() < 0.2) {
+          showMessage("I'm ignoring you right now, try again.");
+          checkboxContainer.classList.add('shake');
+          setTimeout(() => checkboxContainer.classList.remove('shake'), 500);
+          return;
+        }
+        
+        checkbox.checked = !checkbox.checked;
+        
+        if (checkbox.checked) {
+          consecutiveChecks++;
+          showMessage(getRandomMessage(true));
+        } else {
+          consecutiveChecks = 0;
+          showMessage(getRandomMessage(false));
+        }
+        
+        updateButtonState();
+      });
+      
+      decoyElements.forEach(element => {
+        element.addEventListener('mouseenter', function() {
+          if (Math.random() < 0.4) {
+            checkbox.checked = !checkbox.checked;
+            showMessage("Oops! I changed my mind while you were looking away!");
+            checkbox.classList.add('checkbox-dance');
+            setTimeout(() => checkbox.classList.remove('checkbox-dance'), 500);
+            updateButtonState();
+            desperationLevel += 0.5;
+          }
+        });
+        
+        element.addEventListener('click', function() {
+          if (Math.random() < 0.7) {
+            checkbox.checked = !checkbox.checked;
+            showMessage("You clicked something else, but I felt it too!");
+            checkbox.classList.add('shake');
+            setTimeout(() => checkbox.classList.remove('shake'), 500);
+            updateButtonState();
+            desperationLevel += 0.7;
+          }
+        });
+      });
+      
+      setInterval(() => {
+        if (!checkbox.checked && Math.random() < 0.15) {
+          checkbox.checked = true;
+          showMessage("I checked myself! I hope that's okay!");
+          checkbox.classList.add('checkbox-dance');
+          setTimeout(() => checkbox.classList.remove('checkbox-dance'), 500);
+          updateButtonState();
+        }
+      }, 7000);
+      
+      setInterval(() => {
+        if (checkbox.checked && Math.random() < 0.25) {
+          checkbox.checked = false;
+          showMessage("Oops! I unchecked myself. Sorry about that!");
+          checkbox.classList.add('checkbox-dance');
+          setTimeout(() => checkbox.classList.remove('checkbox-dance'), 500);
+          updateButtonState();
+          desperationLevel += 0.3;
+        }
+      }, 5000);
+      
+      setInterval(() => {
+        if (Math.random() < 0.2) {
+          const altLabels = [
+            "I agree to the Terms & Conditions",
+            "I surrender my digital soul to this website",
+            "I promise to never complain about checkboxes",
+            "I acknowledge this checkbox controls me, not vice versa",
+            "I will tell everyone about this checkbox experience",
+            "I may or may not agree to something"
+          ];
+          
+          const newLabel = altLabels[Math.floor(Math.random() * altLabels.length)];
+          if (newLabel !== checkboxLabel.textContent) {
+            checkboxLabel.textContent = newLabel;
+            checkboxLabel.classList.add('shake');
+            setTimeout(() => checkboxLabel.classList.remove('shake'), 500);
+          }
+        }
+      }, 10000);
+      
+      setInterval(() => {
+        desperationLevel += 0.2;
+        if (Math.random() < 0.3) {
+          showMessage(getRandomMessage(checkbox.checked));
+        }
+      }, 15000);
+    
+      continueButton.addEventListener('click', function() {
+        if (!checkbox.checked) {
+          continueButton.disabled = true;
+          showMessage("You need to check the box first! ...if you can.");
+          return;
+        }
+        
+        continueAttempts++;
+        
+        if (continueAttempts < 3 || Math.random() < 0.8) {
+          checkbox.checked = false;
+          updateButtonState();
+          showMessage("HAHA! Nice try! You'll have to check me AGAIN!");
+          continueButton.classList.add('shake');
+          setTimeout(() => continueButton.classList.remove('shake'), 500);
+          desperationLevel += 1;
+          return;
+        }
+        
+        document.querySelector('.checkbox-container').style.display = 'none';
+        continueButton.style.display = 'none';
+        document.querySelector('.decoy-elements').style.display = 'none';
+        successMessage.style.display = 'block';
+      });
+      
+      setInterval(() => {
+        if (checkbox.checked) {
+          persistenceCounter++;
+          
+          if (persistenceCounter > 10) {
+            clearInterval(randomlyToggleCheckbox);
+            showMessage("Fine! You win! Stay checked!");
+            desperationLevel = 0;
+          }
+        } else {
+          persistenceCounter = Math.max(0, persistenceCounter - 1);
+        }
+      }, 2000);
+      
+      updateButtonState();
+    });
+  </script>
 </body>
 </html>
