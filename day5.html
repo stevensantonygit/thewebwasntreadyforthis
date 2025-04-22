@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Web Wasn't Ready For This - Day 5</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+
+    :root {
+      --primary-color: #ff00ff;
+      --secondary-color: #00ffff;
+      --error-color: #ff3333;
+      --success-color: #33ff33;
+      --popup-bg: rgba(255, 255, 255, 0.95);
+      --popup-border: #ddd;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+      overflow-x: hidden;
+    }
+    
+    header {
+      text-align: center;
+      padding: 2rem 0;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .day-counter {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .content {
+      min-height: 300px;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .cookie-popup {
+      position: absolute;
+      padding: 15px;
+      background: var(--popup-bg);
+      border: 2px solid var(--popup-border);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+      width: 300px;
+      transition: all 0.3s ease;
+      animation: bounce-in 0.5s;
+    }
+    
+    .cookie-popup h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+    
+    .legal-text {
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #eee;
+      background: #f9f9f9;
+    }
+    
+    .cookie-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    
+    .accept-btn {
+      background: var(--success-color);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+      flex: 1;
+    }
+    
+    .refuse-btn {
+      background: var(--error-color);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+      flex: 1;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #888;
+    }
+    
+    .cookie-popup button:hover {
+      transform: scale(1.05);
+    }
+    
+    .success-message {
+      padding: 20px;
+      background-color: var(--success-color);
+      color: white;
+      border-radius: 8px;
+      text-align: center;
+      margin: 20px 0;
+      display: none;
+      animation: fade-in 0.5s;
+    }
+    
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background-color: #333;
+      color: white;
+      margin-top: 2rem;
+    }
+    
+    .footer-link {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .footer-link:hover {
+      text-decoration: underline;
+      color: var(--primary-color);
+    }
+    
+    .footer-text {
+      font-style: italic;
+    }
+    
+    @keyframes bounce-in {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .shake {
+      animation: shake 0.5s ease;
+    }
+    
+    .cursor-follower {
+      transition: all 0.1s ease;
+      position: fixed;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>The Web Wasn't Ready For This</h1>
+    <div class="day-counter">Day 5: Cookie Consent Nightmare</div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <h2>Welcome to our website!</h2>
+      <p>We've prepared a special cookie consent experience just for you.</p>
+      <p>Try to navigate this page... if you can.</p>
+      <p>Hint: There may or may not be a way to actually get rid of these popups.</p>
+      
+      <div id="successMessage" class="success-message">
+        <h3>Congratulations!</h3>
+        <p>You've somehow managed to defeat the Cookie Consent Nightmare.</p>
+        <p>We didn't think it was possible, but here we are!</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="day4.html" class="footer-link">← Day 4: The Indecisive Checkbox</a>
+    <span class="footer-text">A journey into digital chaos</span>
+    <a href="day6.html" class="footer-link">Day 6: Coming Soon →</a>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.container');
+      const successMessage = document.getElementById('successMessage');
+      let popupCount = 0;
+      let refuseCount = 0;
+      let acceptCount = 0;
+      let followingPopups = [];
+      let mouseX = 0, mouseY = 0;
+      
+      const legalTextVariations = [
+        "By clicking 'Accept', you acknowledge that we will collect your data for purposes including but not limited to targeted advertising, behavioral analysis, and selling to third parties. Your consent is binding until the heat death of the universe.",
+        
+        "Accepting cookies means you grant us unrestricted access to monitor your online activities. We may use this information to judge your internet habits silently. We promise not to laugh too loudly at your search history.",
+        
+        "Our cookies are like digital breadcrumbs that follow you everywhere online. By accepting, you agree to carry these breadcrumbs to every corner of the internet you visit. Don't worry, the birds won't eat these ones.",
+        
+        "Your acceptance constitutes a legally binding agreement whereby your data becomes our data, your preferences become our business model, and your privacy becomes an optional concept that we'll consider when we feel like it.",
+        
+        "Each cookie we place contains a tiny digital version of our legal team, ready to justify our use of your data at any moment. By accepting, you agree to feed and house these tiny lawyers indefinitely.",
+        
+        "By refusing cookies, you acknowledge that this website may become unusable, your internet may slow down, and your electronic devices may randomly play Rick Astley's 'Never Gonna Give You Up' at 3 AM.",
+        
+        "Our cookies have feelings too. Refusing them causes significant emotional distress to these small data packets. Are you really that heartless? Think of the cookies!",
+        
+        "Accepting cookies is technically optional in the same way that breathing is technically optional. You could refuse, but the consequences might be similarly uncomfortable.",
+        
+        "Our advanced AI-powered cookies can predict your future based on your browsing habits. By accepting, you waive all rights to be surprised by your own destiny. We already know what you'll have for breakfast tomorrow.",
+        
+        "These cookies are free of gluten, dairy, and privacy concerns. Any resemblance to actual nutritional cookies is purely coincidental and should not be consumed physically. Digital consumption only.",
+        
+        "By accepting, you agree that our cookies may form a small civilization on your hard drive, developing their own culture and possibly contacting you about their religious beliefs.",
+        
+        "Our legal team insisted we inform you that these cookies may or may not become sentient and apply for citizenship in your country. Any tax implications from cookie-related income are solely your responsibility."
+      ];
+      
+      function createCookiePopup(x, y, scale = 1, isFollower = false) {
+        popupCount++;
+        
+        const popup = document.createElement('div');
+        popup.className = isFollower ? 'cookie-popup cursor-follower' : 'cookie-popup';
+        popup.id = `popup-${popupCount}`;
+        popup.style.width = `${300 * scale}px`;
+        popup.style.fontSize = `${scale * 100}%`;
+        
+        if (x === undefined || y === undefined) {
+          x = Math.random() * (window.innerWidth - 350);
+          y = Math.random() * (window.innerHeight - 250);
+        }
+        
+        popup.style.left = `${x}px`;
+        popup.style.top = `${y}px`;
+        
+        const legalTextIndex = Math.floor(Math.random() * legalTextVariations.length);
+        
+        popup.innerHTML = `
+          <button class="close-btn">&times;</button>
+          <h3>We Value Your Privacy</h3>
+          <div class="legal-text">
+            ${legalTextVariations[legalTextIndex]}
+          </div>
+          <div class="cookie-buttons">
+            <button class="accept-btn">Accept All</button>
+            <button class="refuse-btn">Refuse</button>
+          </div>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        const closeBtn = popup.querySelector('.close-btn');
+        const acceptBtn = popup.querySelector('.accept-btn');
+        const refuseBtn = popup.querySelector('.refuse-btn');
+        const legalTextDiv = popup.querySelector('.legal-text');
+        
+        closeBtn.addEventListener('click', function() {
+          popup.classList.add('shake');
+          
+          const rect = popup.getBoundingClientRect();
+          
+          setTimeout(() => {
+            if (document.querySelectorAll('.cookie-popup').length < 20) {
+              createCookiePopup(rect.left - 30, rect.top - 30);
+              createCookiePopup(rect.left + 30, rect.top + 30);
+            }
+          }, 300);
+        });
+        
+        acceptBtn.addEventListener('click', function() {
+          acceptCount++;
+          
+          if (acceptCount >= 10) {
+            const allPopups = document.querySelectorAll('.cookie-popup');
+            allPopups.forEach(p => p.remove());
+            followingPopups = [];
+            successMessage.style.display = 'block';
+            return;
+          }
+          
+          popup.classList.add('cursor-follower');
+          followingPopups.push(popup);
+          
+          popup.dataset.offsetX = Math.random() * 100 - 50;
+          popup.dataset.offsetY = Math.random() * 100 - 50;
+          
+          setTimeout(() => {
+            createCookiePopup();
+          }, 500);
+        });
+        
+        refuseBtn.addEventListener('click', function() {
+          refuseCount++;
+          
+          const currentScale = parseFloat(popup.style.width) / 300;
+          const newScale = currentScale * 0.8;
+          
+          if (newScale < 0.3) {
+            popup.remove();
+            createCookiePopup(
+              Math.random() * window.innerWidth, 
+              Math.random() * window.innerHeight, 
+              0.3, 
+              true
+            );
+          } else {
+            popup.style.width = `${300 * newScale}px`;
+            popup.style.fontSize = `${newScale * 100}%`;
+          }
+          
+          const newLegalTextIndex = (legalTextIndex + Math.floor(Math.random() * (legalTextVariations.length - 1) + 1)) % legalTextVariations.length;
+          legalTextDiv.innerHTML = legalTextVariations[newLegalTextIndex];
+          legalTextDiv.classList.add('shake');
+          setTimeout(() => legalTextDiv.classList.remove('shake'), 500);
+        });
+        
+        legalTextDiv.addEventListener('scroll', function() {
+          if (Math.random() < 0.3 && legalTextDiv.scrollTop > 20) {
+            const currentText = legalTextDiv.innerHTML;
+            const availableTexts = legalTextVariations.filter(text => text !== currentText);
+            const newText = availableTexts[Math.floor(Math.random() * availableTexts.length)];
+            
+            legalTextDiv.innerHTML = newText;
+          }
+        });
+        
+        return popup;
+      }
+      
+      setTimeout(() => {
+        createCookiePopup(
+          window.innerWidth / 2 - 150,
+          window.innerHeight / 2 - 100
+        );
+      }, 1000);
+      
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        followingPopups.forEach((popup, index) => {
+          setTimeout(() => {
+            if (popup && document.body.contains(popup)) {
+              const offsetX = parseFloat(popup.dataset.offsetX || 0);
+              const offsetY = parseFloat(popup.dataset.offsetY || 0);
+              
+              popup.style.left = `${mouseX + offsetX}px`;
+              popup.style.top = `${mouseY + offsetY}px`;
+            }
+          }, index * 50);
+        });
+      });
+      
+      setInterval(() => {
+        const currentPopups = document.querySelectorAll('.cookie-popup').length;
+        if (currentPopups < 5) {
+          createCookiePopup();
+        }
+      }, 20000);
+      
+      let clickCount = 0;
+      let clickTimer;
+      
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.cookie-popup')) return;
+        
+        clickCount++;
+        clearTimeout(clickTimer);
+        
+        clickTimer = setTimeout(() => {
+          clickCount = 0;
+        }, 2000);
+        
+        if (clickCount >= 5) {
+          createCookiePopup(e.clientX, e.clientY);
+          clickCount = 0;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
