@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "Consider taking a screenshot to compare later. That might provide some proof either way.",
         "Maybe take a screenshot for later comparison. That could help verify your suspicions.",
         "You could take a screenshot to check later. That should help determine what's happening.",
-        "Perhaps capture a screenshot for future reference. That might help confirm your experience."
+        "Perhaps capture a screenshot for future reference! That might help confirm your experience."
       ]
     };
     
