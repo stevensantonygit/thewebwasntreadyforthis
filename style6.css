@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+
+:root {
+  --primary-color: #ff00ff;
+  --secondary-color: #00ffff;
+  --text-color: #333;
+  --bg-color: #f0f0f0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  transition: background-color 20s ease;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 0;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.day-counter {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  min-height: 300px;
+  padding: 2rem;
+}
+
+.content p, .content h2, .content h3 {
+  transition: opacity 0.3s ease;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.changing-image {
+  width: 2000px;
+  height: 500px;
+  background-image: url('https://raw.githubusercontent.com/stevensantonygit/thewebwasntreadyforthis/refs/heads/main/The%20Web%20Wasnt%20Ready%20For%20This.png');
+  background-size: cover;
+  border-radius: 8px;
+  transition: transform 60s ease;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: var(--secondary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.sanity-check {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border-left: 5px solid var(--primary-color);
+}
+
+.sanity-check h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: #333;
+  color: white;
+  margin-top: 2rem;
+}
+
+.footer-link {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+  color: var(--primary-color);
+}
+
+.footer-text {
+  font-style: italic;
+}
+
+.color-shifting {
+  transition: color 30s ease;
+}
+
+.rotate-element {
+  transition: transform 120s ease;
+}
+
+.hidden {
+  opacity: 0.0001;
+  pointer-events: none;
+}
+
+@keyframes subtlePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+  100% { transform: scale(1); }
+}
+
+.pulse-element {
+  animation: subtlePulse 30s infinite ease-in-out;
+}
