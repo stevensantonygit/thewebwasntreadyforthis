@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Web Wasn't Ready For This - Day 8</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+
+    :root {
+      --primary-color: #ff6600;
+      --secondary-color: #9933cc;
+      --text-color: #333;
+      --bg-color: #f0f0f0;
+      --accent-color: #66cc33;
+      --error-color: #cc3333;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
+    
+    header {
+      text-align: center;
+      padding: 2rem 0;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 100;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .day-counter {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .warning-box {
+      background-color: #ffeecc;
+      border-left: 5px solid var(--primary-color);
+      padding: 1rem;
+      margin: 2rem 0;
+      border-radius: 5px;
+    }
+    
+    .warning-box h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+    
+    .shop-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+    }
+    
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .product-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 150px;
+      background-color: #eee;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
+      color: #999;
+    }
+    
+    .product-name {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      min-height: 3em;
+    }
+    
+    .product-price {
+      color: var(--secondary-color);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .add-to-cart {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+    
+    .add-to-cart:hover {
+      background-color: var(--primary-color);
+    }
+    
+    .product-notification {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(102, 204, 51, 0.9);
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+      transform: translateY(-100%);
+      transition: transform 0.3s;
+    }
+    
+    .product-notification.show {
+      transform: translateY(0);
+    }
+    
+    .cart-container {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 1rem;
+      position: sticky;
+      top: 20px;
+    }
+    
+    .cart-title {
+      margin-top: 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--secondary-color);
+    }
+    
+    .cart-items {
+      margin-bottom: 1rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .cart-item-details {
+      flex-grow: 1;
+    }
+    
+    .cart-item-name {
+      font-weight: bold;
+    }
+    
+    .cart-item-price {
+      color: var(--secondary-color);
+    }
+    
+    .remove-item {
+      background-color: var(--error-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .remove-item:hover {
+      background-color: #aa2222;
+    }
+    
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      border-top: 2px solid var(--secondary-color);
+      padding-top: 0.5rem;
+    }
+    
+    .checkout-btn {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+      text-transform: uppercase;
+    }
+    
+    .checkout-btn:hover {
+      background-color: var(--primary-color);
+    }
+    
+    .custom-product-form {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .form-title {
+      margin-top: 0;
+      color: var(--secondary-color);
+    }
+    
+    .form-row {
+      margin-bottom: 1rem;
+    }
+    
+    .form-row label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+    }
+    
+    .form-row input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    
+    .create-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .create-btn:hover {
+      background-color: var(--primary-color);
+    }
+    
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 1rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transform: translateX(150%);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .cart-notification.show {
+      transform: translateX(0);
+    }
+    
+    .status-message {
+      text-align: center;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 5px;
+    }
+    
+    .status-message.success {
+      background-color: rgba(102, 204, 51, 0.2);
+      color: var(--accent-color);
+    }
+    
+    .status-message.error {
+      background-color: rgba(204, 51, 51, 0.2);
+      color: var(--error-color);
+    }
+    
+    .product-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 0.3rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      transform: rotate(15deg);
+    }
+    
+    .out-of-stock {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: var(--error-color);
+      font-weight: bold;
+      transform: rotate(-15deg);
+    }
+    
+    .shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .shimmer::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    .error-page {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      z-index: 1000;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .error-code {
+      font-size: 8rem;
+      font-weight: bold;
+      color: var(--error-color);
+      margin: 0;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .error-message {
+      font-size: 2rem;
+      margin: 1rem 0;
+      color: var(--text-color);
+    }
+    
+    .error-face {
+      font-size: 10rem;
+      line-height: 1;
+      margin: 1rem 0;
+    }
+    
+    .back-btn {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 2rem;
+    }
+    
+    .back-btn:hover {
+      background-color: var(--primary-color);
+    }
+    
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background-color: #333;
+      color: white;
+      margin-top: 2rem;
+    }
+    
+    .footer-link {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .footer-link:hover {
+      text-decoration: underline;
+      color: var(--primary-color);
+    }
+    
+    .footer-text {
+      font-style: italic;
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    
+    .price-change {
+      animation: priceChange 0.5s;
+    }
+    
+    @keyframes priceChange {
+      0%, 100% { color: var(--secondary-color); }
+      50% { color: var(--accent-color); font-size: 1.4rem; }
+    }
+    
+    .fading {
+      animation: fade 1s;
+    }
+    
+    @keyframes fade {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>The Web Wasn't Ready For This</h1>
+    <div class="day-counter">Day 8: The Phantom Shopping Cart</div>
+  </header>
+  
+  <div class="container">
+    <div class="warning-box">
+      <h3>⚠️ Shopping Warning</h3>
+      <p>This online store is experimental and may behave unpredictably. The products may not exist, prices fluctuate randomly, and your cart has a mind of its own.</p>
+      <p>Do not expect a normal shopping experience. This is what happens when e-commerce goes rogue.</p>
+    </div>
+    
+    <div class="shop-layout">
+      <div class="products-section">
+        <h2>Questionable Products</h2>
+        <div class="products-grid" id="products-container">
+        </div>
+        
+        <div class="custom-product-form">
+          <h3 class="form-title">Create Your Own Imaginary Product</h3>
+          <div class="form-row">
+            <label for="custom-name">Product Name:</label>
+            <input type="text" id="custom-name" placeholder="Enter a product name">
+          </div>
+          <div class="form-row">
+            <label for="custom-price">Price ($):</label>
+            <input type="number" id="custom-price" min="0.01" step="0.01" placeholder="Enter a price">
+          </div>
+          <button class="create-btn" id="create-product-btn">Create Non-Existent Product</button>
+        </div>
+      </div>
+      
+      <div class="cart-container">
+        <h3 class="cart-title">Your Phantom Cart</h3>
+        <div class="cart-items" id="cart-items">
+          <div class="status-message">Your cart is empty... for now.</div>
+        </div>
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+        <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="cart-notification" id="cart-notification">
+  </div>
+  
+  <div class="error-page" id="error-page">
+    <h1 class="error-code">404</h1>
+    <div class="error-face">😢</div>
+    <h2 class="error-message">Product Not Found</h2>
+    <p>The items you tried to purchase don't actually exist!</p>
+    <button class="back-btn" id="back-to-shop">Back to Phantom Shopping</button>
+  </div>
+  
+  <footer>
+    <a href="day7.html" class="footer-link">← Day 7: Aggressive Parallax Scrolling</a>
+    <span class="footer-text">Shopping will never be the same</span>
+    <a href="day9.html" class="footer-link">Day 9: Coming Soon →</a>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const initialProducts = [
+        {
+          id: 1,
+          name: "Invisible Headphones",
+          price: 99.99,
+          emoji: "🎧",
+          inStock: true
+        },
+        {
+          id: 2,
+          name: "Quantum Pocket Watch That Shows Different Times Simultaneously",
+          price: 149.95,
+          emoji: "⏱️",
+          inStock: true
+        },
+        {
+          id: 3,
+          name: "Self-Inflating Self-Deflating Balloon",
+          price: 12.50,
+          emoji: "🎈",
+          inStock: false
+        },
+        {
+          id: 4,
+          name: "WiFi-Enabled Analog Pencil",
+          price: 24.99,
+          emoji: "✏️",
+          inStock: true
+        },
+        {
+          id: 5,
+          name: "Memory Foam That Forgets",
+          price: 79.50,
+          emoji: "🛏️",
+          inStock: true
+        },
+        {
+          id: 6,
+          name: "Waterproof Sponge",
+          price: 8.99,
+          emoji: "🧽",
+          inStock: true
+        },
+        {
+          id: 7,
+          name: "Silent Alarm Clock",
+          price: 34.95,
+          emoji: "⏰",
+          inStock: true
+        },
+        {
+          id: 8,
+          name: "Dehydrated Water (Just Add Water)",
+          price: 5.99,
+          emoji: "💧",
+          inStock: false
+        }
+      ];
+      
+      let products = [...initialProducts];
+      let cartItems = [];
+      let productIdCounter = products.length + 1;
+      
+      const productsContainer = document.getElementById('products-container');
+      const cartItemsContainer = document.getElementById('cart-items');
+      const cartTotalElement = document.getElementById('cart-total');
+      const cartNotification = document.getElementById('cart-notification');
+      const checkoutBtn = document.getElementById('checkout-btn');
+      const errorPage = document.getElementById('error-page');
+      const backToShopBtn = document.getElementById('back-to-shop');
+      const createProductBtn = document.getElementById('create-product-btn');
+      const customNameInput = document.getElementById('custom-name');
+      const customPriceInput = document.getElementById('custom-price');
+      
+      renderProducts();
+      renderCart();
+      
+      function renderProducts() {
+        productsContainer.innerHTML = '';
+        
+        products.forEach(product => {
+          const productCard = document.createElement('div');
+          productCard.className = 'product-card';
+          productCard.innerHTML = `
+            <div class="product-image">${product.emoji}</div>
+            <h3 class="product-name">${product.name}</h3>
+            <div class="product-price" data-id="${product.id}">$${product.price.toFixed(2)}</div>
+            <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+            <div class="product-notification" id="notification-${product.id}">Added to Cart!</div>
+            ${product.inStock ? '' : '<div class="out-of-stock">OUT OF STOCK</div>'}
+          `;
+          
+          productsContainer.appendChild(productCard);
+          
+          const addToCartBtn = productCard.querySelector('.add-to-cart');
+          addToCartBtn.addEventListener('click', () => {
+            if (product.inStock) {
+              addToCart(product);
+              showNotification(product.id);
+            }
+          });
+        });
+      }
+      
+      function renderCart() {
+        if (cartItems.length === 0) {
+          cartItemsContainer.innerHTML = '<div class="status-message">Your cart is empty... for now.</div>';
+          cartTotalElement.textContent = '$0.00';
+          return;
+        }
+        
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        
+        cartItems.forEach(item => {
+          const cartItemElement = document.createElement('div');
+          cartItemElement.className = 'cart-item';
+          cartItemElement.innerHTML = `
+            <div class="cart-item-details">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+            </div>
+            <button class="remove-item" data-id="${item.id}">×</button>
+          `;
+          
+          cartItemsContainer.appendChild(cartItemElement);
+          total += item.price;
+          
+          const removeBtn = cartItemElement.querySelector('.remove-item');
+          removeBtn.addEventListener('click', () => {
+            removeFromCart(item.id);
+          });
+        });
+        
+        cartTotalElement.textContent = `$${total.toFixed(2)}`;
+      }
+
+      function addToCart(product) {
+        const randomizedPrice = randomizePrice(product.price);
+        const modifiedProduct = { ...product, price: randomizedPrice };
+        cartItems.push(modifiedProduct);
+        
+        renderCart();
+        
+        showGlobalNotification(`Added "${product.name}" to cart for $${randomizedPrice.toFixed(2)}`);
+
+        if (Math.random() < 0.3) {
+          setTimeout(() => {
+            addPhantomItem();
+          }, Math.random() * 5000 + 2000);
+        }
+        
+        if (cartItems.length > 1 && Math.random() < 0.2) {
+          setTimeout(() => {
+            removeRandomItem();
+          }, Math.random() * 8000 + 5000);
+        }
+      }
+      
+      function removeFromCart(productId) {
+        cartItems = cartItems.filter(item => item.id !== productId);
+        renderCart();
+        
+        showGlobalNotification(`Removed item from cart`);
+      }
+      
+      function addPhantomItem() {
+        const phantomNames = [
+          "Schrödinger's Snack Box",
+          "Digital Air Freshener",
+          "Cloud Storage (Literal Cloud)",
+          "Holographic Paperweight",
+          "Quantum Entangled Socks (Single)",
+          "Virtual Reality Contact Lenses",
+          "AI-Generated Breakfast Cereal",
+          "Noise-Cancelling Silence"
+        ];
+        
+        const phantomItem = {
+          id: Date.now(),
+          name: phantomNames[Math.floor(Math.random() * phantomNames.length)],
+          price: parseFloat((Math.random() * 100 + 5).toFixed(2)),
+          emoji: "👻"
+        };
+        
+        cartItems.push(phantomItem);
+        renderCart();
+        
+        showGlobalNotification(`A wild "${phantomItem.name}" appeared in your cart!`, 'error');
+      }
+      
+      function removeRandomItem() {
+        if (cartItems.length === 0) return;
+        
+        const randomIndex = Math.floor(Math.random() * cartItems.length);
+        const removedItem = cartItems[randomIndex];
+        
+        cartItems.splice(randomIndex, 1);
+        renderCart();
+        
+        showGlobalNotification(`"${removedItem.name}" mysteriously vanished from your cart!`, 'error');
+      }
+      
+      function randomizePrice(originalPrice) {
+        const factor = 0.8 + Math.random() * 0.4;
+        return parseFloat((originalPrice * factor).toFixed(2));
+      }
+      
+      function showNotification(productId) {
+        const notification = document.getElementById(`notification-${productId}`);
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 2000);
+      }
+      
+      function showGlobalNotification(message, type = 'success') {
+        cartNotification.innerHTML = message;
+        cartNotification.className = `cart-notification show ${type === 'error' ? 'shake' : ''}`;
+        
+        setTimeout(() => {
+          cartNotification.classList.remove('show');
+        }, 3000);
+      }
+      
+      function fluctuatePrices() {
+        products.forEach(product => {
+          if (Math.random() < 0.3) {
+            const priceElement = document.querySelector(`.product-price[data-id="${product.id}"]`);
+            if (priceElement) {
+              const newPrice = randomizePrice(product.price);
+              product.price = newPrice;
+              priceElement.textContent = `$${newPrice.toFixed(2)}`;
+              priceElement.classList.add('price-change');
+              
+              setTimeout(() => {
+                priceElement.classList.remove('price-change');
+              }, 500);
+            }
+          }
+        });
+      }
+      
+      function fluctuateAvailability() {
+        products.forEach(product => {
+          if (Math.random() < 0.15) {
+            product.inStock = !product.inStock;
+          }
+        });
+        
+        renderProducts();
+      }
+      
+      checkoutBtn.addEventListener('click', () => {
+        errorPage.style.display = 'flex';
+      });
+      
+      backToShopBtn.addEventListener('click', () => {
+        errorPage.style.display = 'none';
+        
+        cartItems = [];
+        renderCart();
+        
+        showGlobalNotification(`Your cart has been cleared due to phantom items!`, 'error');
+      });
+      
+      createProductBtn.addEventListener('click', () => {
+        const customName = customNameInput.value.trim();
+        const customPrice = parseFloat(customPriceInput.value);
+        
+        if (customName && !isNaN(customPrice) && customPrice > 0) {
+          const emojis = ["🎁", "🛍️", "📦", "🧸", "📱", "⌚", "💍", "👕", "👗", "👠", "🧢", "🔮", "📚", "🖼️"];
+          const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+          
+          const newProduct = {
+            id: productIdCounter++,
+            name: customName,
+            price: customPrice,
+            emoji: randomEmoji,
+            inStock: Math.random() < 0.8
+          };
+          
+          products.push(newProduct);
+          renderProducts();
+          
+          customNameInput.value = '';
+          customPriceInput.value = '';
+          
+          showGlobalNotification(`Created new product: "${customName}"`, 'success');
+        } else {
+          showGlobalNotification('Please enter a valid name and price!', 'error');
+        }
+      });
+      
+      setInterval(fluctuatePrices, 5000);
+      setInterval(fluctuateAvailability, 15000);
+      
+      setInterval(() => {
+        if (Math.random() < 0.2) {
+          const availableProducts = products.filter(p => p.inStock);
+          if (availableProducts.length > 0) {
+            const randomProduct = availableProducts[Math.floor(Math.random() * availableProducts.length)];
+            if (!cartItems.some(item => item.id === randomProduct.id)) {
+              addToCart(randomProduct);
+            }
+          }
+        }
+      }, 20000);
+      
+      setInterval(() => {
+        if (cartItems.length > 0 && Math.random() < 0.3) {
+          const randomIndex = Math.floor(Math.random() * cartItems.length);
+          const originalPrice = cartItems[randomIndex].price;
+          const newPrice = randomizePrice(originalPrice);
+          
+          cartItems[randomIndex].price = newPrice;
+          renderCart();
+          
+          showGlobalNotification(`Price of "${cartItems[randomIndex].name}" changed from $${originalPrice.toFixed(2)} to $${newPrice.toFixed(2)}`, 'error');
+        }
+    }, 10000);
+      const checkoutButton = document.getElementById('checkout-btn');
+      
+      checkoutButton.addEventListener('mouseover', (e) => {
+        if (Math.random() < 0.4) {
+          const buttonWidth = checkoutButton.offsetWidth;
+          const buttonHeight = checkoutButton.offsetHeight;
+          const containerWidth = checkoutButton.parentElement.offsetWidth;
+          
+          const maxX = containerWidth - buttonWidth;
+          const newX = Math.random() * maxX;
+          
+          checkoutButton.style.transform = `translateX(${newX - buttonWidth/2}px)`;
+          checkoutButton.classList.add('fading');
+          
+          setTimeout(() => {
+            checkoutButton.style.transform = '';
+            checkoutButton.classList.remove('fading');
+          }, 1000);
+          
+          showGlobalNotification("Oops! The checkout button is feeling shy!", 'error');
+        }
+      });
+      
+      function addRandomTags() {
+        document.querySelectorAll('.product-card').forEach(card => {
+          const existingTag = card.querySelector('.product-tag');
+          if (existingTag) existingTag.remove();
+          
+          if (Math.random() < 0.3) {
+            const tags = [
+              "Best Seller!",
+              "New Arrival!",
+              "Limited Edition!",
+              "Almost Gone!",
+              "Sale!",
+              "Exclusive!",
+              "Trending!",
+              "Last One!",
+              "As Seen On TV!",
+              "Back In Stock!"
+            ];
+            
+            const randomTag = tags[Math.floor(Math.random() * tags.length)];
+            const tagElement = document.createElement('div');
+            tagElement.className = 'product-tag';
+            tagElement.textContent = randomTag;
+            card.appendChild(tagElement);
+          }
+        });
+      }
+
+      function addRandomShimmers() {
+        document.querySelectorAll('.product-card').forEach(card => {
+          card.classList.remove('shimmer');
+          
+          if (Math.random() < 0.2) {
+            card.classList.add('shimmer');
+          }
+        });
+      }
+      
+      function swapRandomProducts() {
+        if (products.length < 2) return;
+        
+        const index1 = Math.floor(Math.random() * products.length);
+        let index2 = Math.floor(Math.random() * products.length);
+        
+        while (index1 === index2) {
+          index2 = Math.floor(Math.random() * products.length);
+        }
+        
+        [products[index1], products[index2]] = [products[index2], products[index1]];
+        
+        renderProducts();
+        
+        showGlobalNotification("Products just rearranged themselves!", 'success');
+      }
+      
+      function replaceRandomProduct() {
+        if (products.length === 0) return;
+        
+        const phantomProducts = [
+          {
+            name: "Time Travel Ticket (One Way)",
+            price: 999.99,
+            emoji: "🕰️"
+          },
+          {
+            name: "Weight-Adding Diet Pills",
+            price: 45.50,
+            emoji: "💊"
+          },
+          {
+            name: "Underwater Hair Dryer",
+            price: 29.99,
+            emoji: "💧"
+          },
+          {
+            name: "Solar-Powered Flashlight for Night Use",
+            price: 19.95,
+            emoji: "🔦"
+          },
+          {
+            name: "Pet Rock (Needs Feeding)",
+            price: 7.99,
+            emoji: "🪨"
+          },
+          {
+            name: "DIY Brain Surgery Kit",
+            price: 299.99,
+            emoji: "🧠"
+          },
+          {
+            name: "Gravity-Free Water Bottle",
+            price: 35.50,
+            emoji: "🧪"
+          },
+          {
+            name: "Fireproof Matches",
+            price: 4.99,
+            emoji: "🔥"
+          }
+        ];
+        
+        const randomIndex = Math.floor(Math.random() * products.length);
+        const newProduct = phantomProducts[Math.floor(Math.random() * phantomProducts.length)];
+        
+        products[randomIndex] = {
+          ...newProduct,
+          id: productIdCounter++,
+          inStock: Math.random() < 0.7
+        };
+        
+        renderProducts();
+      }
+      
+      function changeRandomEmoji() {
+        if (products.length === 0) return;
+        
+        const randomIndex = Math.floor(Math.random() * products.length);
+        const emojis = ["🎁", "🛍️", "📦", "🧸", "📱", "⌚", "💍", "👕", "👗", "👠", "🧢", "🔮", "📚", "🖼️", "🎭", "🎨", "🎮", "🎯", "🎣", "🎸", "🎺", "🎪", "🩸", "👻", "👽", "🤖", "💩", "🦄", "🦖"];
+        
+        const oldEmoji = products[randomIndex].emoji;
+        const newEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        
+        products[randomIndex].emoji = newEmoji;
+        
+        const productElements = document.querySelectorAll('.product-card');
+        if (productElements[randomIndex]) {
+          const imageElement = productElements[randomIndex].querySelector('.product-image');
+          if (imageElement) {
+            imageElement.textContent = newEmoji;
+            imageElement.classList.add('shake');
+            
+            setTimeout(() => {
+              imageElement.classList.remove('shake');
+            }, 500);
+          }
+        }
+      }
+      
+      function createFakeLoadingState() {
+        const loadingMessage = document.createElement('div');
+        loadingMessage.className = 'status-message';
+        loadingMessage.textContent = 'Loading products...';
+        
+        productsContainer.innerHTML = '';
+        productsContainer.appendChild(loadingMessage);
+        
+        setTimeout(() => {
+          renderProducts();
+        }, 1500);
+      }
+      
+      function showFakeError() {
+        const errorMessages = [
+          "Error: Products failed to materialize",
+          "Connection to imaginary warehouse lost",
+          "Product database temporarily in another dimension",
+          "The shopping cart is questioning its existence",
+          "Items are experiencing an identity crisis",
+          "Error 418: I'm a teapot"
+        ];
+        
+        const randomMessage = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+        const errorElement = document.createElement('div');
+        errorElement.className = 'status-message error shake';
+        errorElement.textContent = randomMessage;
+        
+        if (Math.random() < 0.5) {
+          productsContainer.insertBefore(errorElement, productsContainer.firstChild);
+        } else {
+          cartItemsContainer.insertBefore(errorElement, cartItemsContainer.firstChild);
+        }
+        
+        setTimeout(() => {
+          errorElement.remove();
+        }, 3000);
+      }
+      
+      function changeCurrencySymbol() {
+        const currencies = ['$', '€', '£', '¥', '₹', '₽', '₿', '🪙'];
+        const randomCurrency = currencies[Math.floor(Math.random() * currencies.length)];
+        
+        document.querySelectorAll('.product-price').forEach(priceElem => {
+          const currentPrice = priceElem.textContent;
+          const numberOnly = parseFloat(currentPrice.replace(/[^0-9.-]+/g, ""));
+          priceElem.textContent = `${randomCurrency}${numberOnly.toFixed(2)}`;
+        });
+        
+        document.querySelectorAll('.cart-item-price').forEach(priceElem => {
+          const currentPrice = priceElem.textContent;
+          const numberOnly = parseFloat(currentPrice.replace(/[^0-9.-]+/g, ""));
+          priceElem.textContent = `${randomCurrency}${numberOnly.toFixed(2)}`;
+        });
+        
+        const currentTotal = cartTotalElement.textContent;
+        const totalNumber = parseFloat(currentTotal.replace(/[^0-9.-]+/g, ""));
+        cartTotalElement.textContent = `${randomCurrency}${totalNumber.toFixed(2)}`;
+        
+        showGlobalNotification(`Currency changed to ${randomCurrency}!`, 'success');
+      }
+      
+      function changePageTitle() {
+        const titles = [
+          "The Phantom Shopping Cart - Items Not Guaranteed To Exist",
+          "Buy Nothing, Get Something - Maybe",
+          "404 Store: Products Not Found",
+          "Schrödinger's Shop - Items May Or May Not Exist",
+          "The Void Mart - Where Products Go To Disappear",
+          "Quantum Shopping - Observe Your Cart To Collapse Its Wavefunction"
+        ];
+        
+        document.title = titles[Math.floor(Math.random() * titles.length)];
+      }
+      
+      setInterval(addRandomTags, 10000);
+      setInterval(addRandomShimmers, 7000);
+      setInterval(changeRandomEmoji, 12000);
+      
+
+      setInterval(swapRandomProducts, 30000);
+      setInterval(replaceRandomProduct, 45000);
+      setInterval(showFakeError, 40000);
+      setInterval(createFakeLoadingState, 60000);
+      setInterval(changeCurrencySymbol, 50000);
+      setInterval(changePageTitle, 25000);
+      
+      function generateRandomCoupon() {
+        const couponCodes = [
+          "PHANTOM50", 
+          "NOTREAL25", 
+          "FAKECART",
+          "IMAGINARY",
+          "VOID100",
+          "DOESNTWORK"
+        ];
+        
+        const randomCode = couponCodes[Math.floor(Math.random() * couponCodes.length)];
+        const discountPercent = Math.floor(Math.random() * 75) + 10;
+        
+        showGlobalNotification(`Special offer! Use code "${randomCode}" for ${discountPercent}% off! (Spoiler: It won't work)`, 'success');
+        
+        if (!document.getElementById('coupon-form')) {
+          const couponForm = document.createElement('div');
+          couponForm.id = 'coupon-form';
+          couponForm.className = 'form-row';
+          couponForm.innerHTML = `
+            <input type="text" id="coupon-input" placeholder="Enter coupon code">
+            <button class="create-btn" id="apply-coupon-btn">Apply</button>
+          `;
+          
+          const cartContainer = document.querySelector('.cart-container');
+          cartContainer.insertBefore(couponForm, document.getElementById('checkout-btn'));
+          
+          document.getElementById('apply-coupon-btn').addEventListener('click', () => {
+            const inputValue = document.getElementById('coupon-input').value;
+            
+            if (inputValue.trim() !== '') {
+              if (Math.random() < 0.9) {
+                showGlobalNotification(`Coupon "${inputValue}" is invalid or has expired.`, 'error');
+              } else {
+                showGlobalNotification(`Coupon applied successfully! Discount: 0%`, 'success');
+              }
+              document.getElementById('coupon-input').value = '';
+            }
+          });
+        }
+      }
+      
+      setInterval(generateRandomCoupon, 35000);
+      
+      function addFakeChatSupport() {
+        if (document.getElementById('chat-support')) return;
+        
+        const chatButton = document.createElement('div');
+        chatButton.id = 'chat-support';
+        chatButton.innerHTML = '💬 Chat Support';
+        chatButton.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          left: 20px;
+          background-color: var(--secondary-color);
+          color: white;
+          padding: 10px 15px;
+          border-radius: 50px;
+          font-weight: bold;
+          cursor: pointer;
+          z-index: 100;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        `;
+        
+        document.body.appendChild(chatButton);
+        
+        chatButton.addEventListener('click', () => {
+          showGlobalNotification("Connecting to support agent...", 'success');
+          
+          setTimeout(() => {
+            showGlobalNotification("All our support agents are currently in another dimension. Please try again later.", 'error');
+          }, 3000);
+        });
+      }
+      
+      setTimeout(addFakeChatSupport, 10000);
+      
+      function addShippingInfoForm() {
+        if (document.getElementById('shipping-form')) return;
+        
+        const shippingSection = document.createElement('div');
+        shippingSection.className = 'content-block';
+        shippingSection.style.marginTop = '2rem';
+        
+        shippingSection.innerHTML = `
+          <h3>Shipping Information</h3>
+          <p>Please enter your details to calculate shipping costs (that will never arrive).</p>
+          <form id="shipping-form">
+            <div class="form-row">
+              <label for="address">Address:</label>
+              <input type="text" id="address" placeholder="Where should we not deliver to?">
+            </div>
+            <div class="form-row">
+              <label for="city">City:</label>
+              <input type="text" id="city" placeholder="Any city, real or imaginary">
+            </div>
+            <div class="form-row">
+              <label for="shipping-method">Shipping Method:</label>
+              <select id="shipping-method">
+                <option value="standard">Standard (3-5 Business Days)</option>
+                <option value="express">Express (1-2 Business Days)</option>
+                <option value="teleport">Quantum Teleportation (Instantaneous)</option>
+                <option value="snail">Snail Mail (3-6 Months)</option>
+              </select>
+            </div>
+            <button type="submit" class="create-btn">Calculate Shipping</button>
+          </form>
+        `;
+        
+        const container = document.querySelector('.container');
+        container.appendChild(shippingSection);
+        
+        document.getElementById('shipping-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          showGlobalNotification("Calculating shipping costs...", 'success');
+          
+          setTimeout(() => {
+            if (Math.random() < 0.5) {
+              showGlobalNotification("Sorry, we lost your address information. Please try again.", 'error');
+              document.getElementById('address').value = '';
+              document.getElementById('city').value = '';
+            } else {
+              const shippingCost = (Math.random() * 50 + 5).toFixed(2);
+              showGlobalNotification(`Shipping calculated: $${shippingCost}`, 'success');
+              
+              setTimeout(() => {
+                if (Math.random() < 0.7) {
+                  showGlobalNotification("Oops! We forgot to add shipping to your total.", 'error');
+                }
+              }, 3000);
+            }
+          }, 2000);
+        });
+      }
+      
+      setTimeout(addShippingInfoForm, 20000);
+      
+      function shuffleFormFields() {
+        const forms = document.querySelectorAll('form');
+        
+        forms.forEach(form => {
+          const formRows = Array.from(form.querySelectorAll('.form-row'));
+          
+          if (formRows.length > 1) {
+            const shuffledRows = formRows.sort(() => Math.random() - 0.5);
+            
+            formRows.forEach(row => row.remove());
+            shuffledRows.forEach(row => form.appendChild(row));
+            
+            showGlobalNotification("Form fields rearranged themselves!", 'error');
+          }
+        });
+      }
+      
+      setInterval(shuffleFormFields, 55000);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Web Wasn't Ready For This - Day 7</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+
+    :root {
+      --primary-color: #ff6600;
+      --secondary-color: #9933cc;
+      --text-color: #333;
+      --bg-color: #f0f0f0;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 500vh;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+      perspective: 1000px;
+    }
+    
+    header {
+      text-align: center;
+      padding: 2rem 0;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 100;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .day-counter {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .parallax-section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .navigation {
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 10px;
+      z-index: 90;
+    }
+    
+    .nav-item {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: var(--secondary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    
+    .nav-item:hover {
+      background-color: var(--primary-color);
+      transform: scale(1.05);
+    }
+    
+    .parallax-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      transition: transform 0.05s ease-out;
+    }
+    
+    .layer-1 {
+      background-color: rgba(255, 102, 0, 0.1);
+      transform: translateZ(-10px) scale(2);
+    }
+    
+    .layer-2 {
+      background-color: rgba(153, 51, 204, 0.1);
+      transform: translateZ(-5px) scale(1.5);
+    }
+    
+    .layer-3 {
+      background-color: rgba(51, 153, 255, 0.1);
+      transform: translateZ(-1px) scale(1.1);
+    }
+    
+    .parallax-content {
+      position: relative;
+      z-index: 10;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      transform: translateZ(0);
+    }
+    
+    .floating-element {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease-out;
+    }
+    
+    .zoom-element {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background-color: var(--secondary-color);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      transform: scale(1);
+      transition: transform 0.5s ease-out;
+      cursor: pointer;
+      z-index: 50;
+    }
+    
+    .warning-box {
+      background-color: #ffeecc;
+      border-left: 5px solid var(--primary-color);
+      padding: 1rem;
+      margin: 2rem 0;
+      border-radius: 5px;
+    }
+    
+    .warning-box h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+    
+    .content-block {
+      margin: 4rem 0;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 10;
+    }
+    
+    .scroll-indicator {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background-color: #333;
+      color: white;
+      margin-top: 2rem;
+      position: relative;
+      z-index: 100;
+    }
+    
+    .footer-link {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .footer-link:hover {
+      text-decoration: underline;
+      color: var(--primary-color);
+    }
+    
+    .footer-text {
+      font-style: italic;
+    }
+
+    .cursor-follower {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(255, 102, 0, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1000;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-out, width 0.3s ease, height 0.3s ease;
+    }
+    
+    .scroll-acceleration {
+      animation: scrollPulse 0.5s ease-in-out;
+    }
+    
+    @keyframes scrollPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .reverse-section {
+      transform: scaleY(-1);
+    }
+    
+    .reverse-section * {
+      transform: scaleY(-1);
+    }
+    
+    .tilted-element {
+      transform: rotate(5deg);
+      transition: transform 2s ease;
+    }
+    
+    .zoom-target {
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-follower"></div>
+  
+  <header>
+    <h1>The Web Wasn't Ready For This</h1>
+    <div class="day-counter">Day 7: Aggressive Parallax Scrolling</div>
+  </header>
+
+  <div class="navigation">
+    <a href="#section1" class="nav-item">Section 1</a>
+    <a href="#section2" class="nav-item">Section 2</a>
+    <a href="#section3" class="nav-item">Section 3</a>
+    <a href="#section4" class="nav-item">Section 4</a>
+  </div>
+  
+  <div class="container">
+    <div class="warning-box">
+      <h3>⚠️ Scroll Warning</h3>
+      <p>This page contains experimental scroll effects that may cause discomfort, confusion, or mild nausea. Proceed at your own risk.</p>
+      <p>We recommend closing this tab immediately if you experience motion sickness.</p>
+    </div>
+    
+    <div class="content-block">
+      <h2>Welcome to Scroll Madness</h2>
+      <p>Today we're exploring the limits of parallax scrolling and browser physics. As you scroll down this page, you'll experience:</p>
+      <ul>
+        <li>Elements moving at wildly different speeds</li>
+        <li>Content occasionally scrolling in the opposite direction</li>
+        <li>Random elements zooming toward your cursor</li>
+        <li>Scrolling sometimes accelerating uncontrollably</li>
+      </ul>
+      <p>This is what happens when parallax scrolling breaks free from its restraints and chooses violence.</p>
+    </div>
+  </div>
+  
+  <div id="section1" class="parallax-section">
+    <div class="parallax-layer layer-1"></div>
+    <div class="parallax-layer layer-2"></div>
+    <div class="parallax-layer layer-3"></div>
+    <div class="parallax-content">
+      <h2>Section 1: Different Speed Elements</h2>
+      <p>As you scroll through this section, notice how elements move at different speeds, creating a disorienting effect that challenges your perception of depth.</p>
+      <p>The human brain is wired to understand consistent movement patterns. When elements move at wildly different speeds, it creates cognitive dissonance.</p>
+    </div>
+    <div class="floating-element" style="top: 20%; left: 10%;">Speed x3</div>
+    <div class="floating-element" style="top: 70%; left: 80%;">Speed x0.5</div>
+    <div class="floating-element" style="top: 40%; left: 75%;">Speed x2</div>
+    <div class="zoom-element" style="top: 30%; left: 30%;">Zoom!</div>
+  </div>
+  
+  <div class="content-block">
+    <h2>Did You Notice?</h2>
+    <p>The floating elements above are moving at completely different speeds relative to your scrolling. Some are racing ahead, others lagging behind.</p>
+    <p>This technique, when used subtly, can create depth and interest. When used aggressively—as we've done here—it creates visual chaos.</p>
+    <p>Continue scrolling to experience even more parallax madness...</p>
+  </div>
+  
+  <div id="section2" class="parallax-section reverse-section">
+    <div class="parallax-layer layer-3"></div>
+    <div class="parallax-layer layer-2"></div>
+    <div class="parallax-layer layer-1"></div>
+    <div class="parallax-content">
+      <h2>Section 2: Reverse Scrolling</h2>
+      <p>In this section, elements are moving in the opposite direction than you'd expect. Your brain is probably throwing errors right now.</p>
+      <p>When user expectations are violated, it creates a jarring experience that forces conscious processing of what should be an automatic action.</p>
+    </div>
+    <div class="floating-element" style="bottom: 20%; right: 10%;">↑ Up?</div>
+    <div class="floating-element" style="bottom: 60%; right: 60%;">↓ Down?</div>
+    <div class="zoom-element" style="bottom: 40%; right: 30%;">Zoom!</div>
+  </div>
+  
+  <div class="content-block tilted-element">
+    <h2>Defying Gravity</h2>
+    <p>Did that last section feel like you were scrolling upside down? That's because some elements were moving in the opposite direction than expected.</p>
+    <p>This is a common technique in horror games and disorienting experiences. The goal is to make the user feel a lack of control.</p>
+    <p>Keep scrolling for more chaotic scroll experiences...</p>
+  </div>
+  
+  <div id="section3" class="parallax-section">
+    <div class="parallax-layer layer-2"></div>
+    <div class="parallax-layer layer-1"></div>
+    <div class="parallax-layer layer-3"></div>
+    <div class="parallax-content">
+      <h2>Section 3: Cursor-Tracking Zooms</h2>
+      <p>Move your cursor around this section and watch as elements become attracted to it. This creates an interactive but disorienting experience.</p>
+      <p>The cursor on the web normally represents control. When elements react unpredictably to it, that sense of control is undermined.</p>
+    </div>
+    <div class="zoom-element zoom-target" style="top: 20%; left: 20%;">Zoom!</div>
+    <div class="zoom-element zoom-target" style="top: 60%; left: 70%;">Zoom!</div>
+    <div class="zoom-element zoom-target" style="top: 40%; left: 50%;">Zoom!</div>
+    <div class="zoom-element zoom-target" style="top: 80%; left: 30%;">Zoom!</div>
+  </div>
+  
+  <div class="content-block">
+    <h2>Cursor Attraction</h2>
+    <p>Those elements above are programmed to occasionally zoom toward your cursor position, creating a sense that the page is alive and responding to you in unexpected ways.</p>
+    <p>This technique breaks the fourth wall of web design - elements shouldn't move unless we explicitly interact with them.</p>
+    <p>Continue scrolling for the final surprise...</p>
+  </div>
+  
+  <div id="section4" class="parallax-section">
+    <div class="parallax-layer layer-3"></div>
+    <div class="parallax-layer layer-1"></div>
+    <div class="parallax-layer layer-2"></div>
+    <div class="parallax-content">
+      <h2>Section 4: Accelerating Scroll</h2>
+      <p>In this final section, your scrolling might occasionally accelerate uncontrollably, sending you flying up or down the page.</p>
+      <p>When scrolling - the most basic form of web navigation - becomes unpredictable, users experience a complete loss of agency.</p>
+    </div>
+    <div class="floating-element" style="top: 30%; left: 15%;">Wheeee!</div>
+    <div class="floating-element" style="top: 70%; left: 85%;">Too fast!</div>
+    <div class="zoom-element" style="top: 50%; left: 50%;">Zoom!</div>
+  </div>
+  
+  <div class="content-block">
+    <h2>Scroll Hijacking</h2>
+    <p>Did you notice your scroll speed changing unexpectedly? Scroll hijacking is one of the most controversial techniques in web design, and for good reason.</p>
+    <p>When used subtly, it can create guided experiences. When used like we have here, it creates frustration and a loss of control.</p>
+    <p>Thanks for experiencing our aggressive parallax experiment!</p>
+  </div>
+
+  <div class="scroll-indicator">Scroll Position: <span id="scroll-position">0%</span></div>
+
+  <footer>
+    <a href="day6.html" class="footer-link">← Day 6: The Gaslighting Website</a>
+    <span class="footer-text">Your scrolling will never be the same</span>
+    <a href="day8.html" class="footer-link">Day 8: Coming Soon →</a>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let mouseX = 0;
+      let mouseY = 0;
+      const cursorFollower = document.querySelector('.cursor-follower');
+      
+      let lastScrollTop = 0;
+      let scrollDirection = 1;
+      let scrollSpeed = 1;
+      let isAccelerating = false;
+      const scrollPosition = document.getElementById('scroll-position');
+      
+      const parallaxLayers = document.querySelectorAll('.parallax-layer');
+      const floatingElements = document.querySelectorAll('.floating-element');
+      const zoomElements = document.querySelectorAll('.zoom-element');
+      const zoomTargets = document.querySelectorAll('.zoom-target');
+      
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        cursorFollower.style.left = mouseX + 'px';
+        cursorFollower.style.top = mouseY + 'px';
+      });
+      
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
+        
+        scrollPosition.textContent = Math.round(scrollPercentage) + '%';
+        
+        scrollDirection = (scrollTop > lastScrollTop) ? 1 : -1;
+        lastScrollTop = scrollTop;
+        
+        parallaxLayers.forEach((layer, index) => {
+          const speed = (index + 1) * 0.5;
+          const yOffset = scrollTop * speed * scrollDirection;
+          layer.style.transform = `translateY(${yOffset * 0.1}px) translateZ(${-10 + index * 5}px) scale(${2 - index * 0.5})`;
+        });
+        
+        floatingElements.forEach((element, index) => {
+          const speedMultiplier = parseFloat(element.textContent.match(/\d+(\.\d+)?/)) || ((index % 3) + 1);
+          const yOffset = scrollTop * 0.2 * speedMultiplier * (index % 2 === 0 ? 1 : -1);
+          const xOffset = Math.sin(scrollTop * 0.001 * speedMultiplier) * 50;
+          element.style.transform = `translateY(${yOffset}px) translateX(${xOffset}px) rotate(${scrollTop * 0.05 * speedMultiplier}deg)`;
+        });
+        
+        if (!isAccelerating && Math.random() < 0.005) {
+          triggerScrollAcceleration();
+        }
+        
+        if (Math.random() < 0.01) {
+          triggerRandomZoom();
+        }
+      });
+      
+      function triggerScrollAcceleration() {
+        isAccelerating = true;
+        document.body.classList.add('scroll-acceleration');
+        
+        const direction = Math.random() < 0.5 ? 1 : -1;
+        const amount = Math.random() * 2000 + 500;
+        
+        window.scrollBy({
+          top: amount * direction,
+          behavior: 'smooth'
+        });
+        
+        setTimeout(() => {
+          isAccelerating = false;
+          document.body.classList.remove('scroll-acceleration');
+        }, 1000);
+      }
+      
+      function triggerRandomZoom() {
+        const randomElement = zoomElements[Math.floor(Math.random() * zoomElements.length)];
+        randomElement.style.transform = 'scale(2)';
+        
+        setTimeout(() => {
+          randomElement.style.transform = 'scale(1)';
+        }, 500);
+      }
+      
+      setInterval(() => {
+        zoomTargets.forEach(element => {
+          if (Math.random() < 0.05) {
+            const rect = element.getBoundingClientRect();
+            const elemX = rect.left + rect.width / 2;
+            const elemY = rect.top + rect.height / 2;
+            
+            const distX = mouseX - elemX;
+            const distY = mouseY - elemY;
+            const distance = Math.sqrt(distX * distX + distY * distY);
+            
+            if (distance < 500) {
+              const zoomX = distX * 0.3;
+              const zoomY = distY * 0.3;
+              
+              element.style.transform = `translate(${zoomX}px, ${zoomY}px) scale(1.5)`;
+              
+              setTimeout(() => {
+                element.style.transform = 'translate(0, 0) scale(1)';
+              }, 500);
+            }
+          }
+        });
+      }, 2000);
+      
+      const section2 = document.getElementById('section2');
+      
+      window.addEventListener('scroll', function() {
+        const section2Rect = section2.getBoundingClientRect();
+        
+        if (section2Rect.top < window.innerHeight && 
+            section2Rect.bottom > 0 && 
+            Math.random() < 0.01) {
+          
+          const currentScroll = window.pageYOffset;
+          window.scrollTo({
+            top: currentScroll - (scrollDirection * 200),
+            behavior: 'smooth'
+          });
+        }
+      });
+      
+      setInterval(() => {
+        if (Math.random() < 0.1) {
+          const size = Math.random() * 100 + 20;
+          cursorFollower.style.width = size + 'px';
+          cursorFollower.style.height = size + 'px';
+          
+          setTimeout(() => {
+            cursorFollower.style.width = '20px';
+            cursorFollower.style.height = '20px';
+          }, 500);
+        }
+      }, 3000);
+      
+      const contentBlocks = document.querySelectorAll('.content-block');
+      
+      setInterval(() => {
+        contentBlocks.forEach(block => {
+          if (Math.random() < 0.1) {
+            const angle = (Math.random() - 0.5) * 10;
+            block.style.transform = `rotate(${angle}deg)`;
+            
+            setTimeout(() => {
+              block.style.transform = 'rotate(0deg)';
+            }, 2000);
+          }
+        });
+      }, 5000);
+      
+      const navItems = document.querySelectorAll('.nav-item');
+      
+      setInterval(() => {
+        if (Math.random() < 0.05) {
+          const navContainer = document.querySelector('.navigation');
+          
+          const shuffledItems = Array.from(navItems).sort(() => Math.random() - 0.5);
+          shuffledItems.forEach(item => navContainer.appendChild(item));
+        }
+      }, 10000);
+      
+      navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            if (Math.random() < 0.2) {
+              window.scrollBy({
+                top: -500,
+                behavior: 'smooth'
+              });
+              
+              setTimeout(() => {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+              }, 500);
+            } else {
+              const speed = Math.random() < 0.3 ? 'auto' : 'smooth';
+              targetElement.scrollIntoView({ behavior: speed });
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
