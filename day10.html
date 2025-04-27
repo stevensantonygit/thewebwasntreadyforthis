@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Web Wasn't Ready For This - Day 10: The Ultimate Finale</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&family=Poppins:wght@400;600;800&display=swap');
+
+        :root {
+            --primary-color: #ff3366;
+            --secondary-color: #33cc99;
+            --text-color: #333;
+            --bg-color: #f0f0f0;
+            --accent-color: #6633cc;
+            --celebration-color: #ffcc00;
+            --success-color: #66cc33;
+            --error-color: #cc3333;
+            --neutral-color: #6699cc;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--celebration-color);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.8;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .celebration-ribbon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, 
+                var(--primary-color), 
+                var(--secondary-color), 
+                var(--accent-color), 
+                var(--celebration-color), 
+                var(--success-color),
+                var(--primary-color));
+            animation: slide 2s linear infinite;
+            z-index: 1000;
+        }
+
+        @keyframes slide {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .header-sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            z-index: 99;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 3rem;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--celebration-color), 0 0 20px var(--celebration-color);
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--celebration-color), 0 0 40px var(--celebration-color);
+            }
+        }
+
+        .day-counter {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .completion-banner {
+            background: linear-gradient(90deg, var(--celebration-color), var(--secondary-color));
+            padding: 2rem;
+            margin: -2rem -2rem 2rem;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .completion-banner h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .completion-banner p {
+            font-size: 1.2rem;
+            margin: 1rem 0 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .trophy-icon {
+            font-size: 4rem;
+            margin: 1rem 0;
+            color: gold;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin: 1rem 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .stat-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 1rem;
+        }
+        
+        .achievements-section {
+            margin: 3rem 0;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .achievement-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .achievement-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+            color: var(--text-color);
+        }
+
+        .achievement-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .achievement-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .completed {
+            background-color: var(--success-color);
+        }
+
+        .failed {
+            background-color: var(--error-color);
+        }
+
+        .journey-timeline {
+            margin: 4rem 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .timeline-event {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-color: white;
+            border: 3px solid var(--accent-color);
+            z-index: 1;
+        }
+
+        .timeline-day {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin: 0.3rem 0;
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .certificate-section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .certificate {
+            background-color: #fff;
+            border: 10px solid var(--neutral-color);
+            border-radius: 15px;
+            padding: 3rem;
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%236633cc' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .certificate-header {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .certificate-subheader {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .certificate-text {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .certificate-name {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--secondary-color);
+            display: inline-block;
+            padding: 0 2rem 0.5rem;
+            margin: 1rem 0 2rem;
+        }
+
+        .certificate-date {
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 2rem;
+        }
+
+        .certificate-seal {
+            width: 120px;
+            height: 120px;
+            margin: 2rem auto;
+            background-color: var(--celebration-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 0 0 5px rgba(255, 204, 0, 0.3), 0 0 0 10px rgba(255, 204, 0, 0.2);
+            position: relative;
+        }
+
+        .certificate-seal::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px dashed white;
+            border-radius: 50%;
+        }
+
+        .feedback-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .feedback-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(102, 51, 204, 0.2);
+        }
+
+        .rating-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .rating-star {
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .rating-star:hover,
+        .rating-star.active {
+            color: var(--celebration-color);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #5522bb;
+            transform: translateY(-2px);
+        }
+
+        .share-section {
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .twitter {
+            background-color: #1da1f2;
+        }
+
+        .facebook {
+            background-color: #4267B2;
+        }
+
+        .linkedin {
+            background-color: #0077b5;
+        }
+
+        .reddit {
+            background-color: #ff4500;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background-color: #333;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        .footer-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+            color: var(--primary-color);
+        }
+
+        .footer-text {
+            font-style: italic;
+        }
+
+        /* Progress bar for each challenge */
+        .challenge-progress {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1.5s ease;
+        }
+
+        /* Sparkle effect for achievements */
+        .sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 0l2.5 7.5H20l-6 4.5 2.5 7.5-6.5-5-6.5 5 2.5-7.5-6-4.5h7.5z' fill='%23FFCC00'/%3E%3C/svg%3E");
+            animation: spin 2s linear infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Dark mode toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #222;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .container {
+            background-color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .stat-card {
+            background-color: #444;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .achievement-card {
+            background-color: #444;
+        }
+
+        body.dark-mode .certificate {
+            background-color: #444;
+            border-color: #555;
+        }
+
+        body.dark-mode .feedback-section {
+            background-color: #383838;
+        }
+
+        body.dark-mode .form-control {
+            background-color: #444;
+            border-color: #555;
+            color: #f0f0f0;
+        }
+
+        /* Animation for text reveal */
+        .reveal-text {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reveal-text span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            animation: revealText 1s forwards;
+        }
+
+        @keyframes revealText {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Particles */
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.7;
+            animation: particle-animation linear infinite;
+        }
+
+        @keyframes particle-animation {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="celebration-ribbon"></div>
+    <div class="particles-container" id="particles"></div>
+
+    <header>
+        <h1>The Web Wasn't Ready For This</h1>
+        <div class="day-counter">Day 10: The Ultimate Finale</div>
+        <!-- Header sparkles -->
+        <div class="header-sparkle" style="top: 20%; left: 15%;"></div>
+        <div class="header-sparkle" style="top: 30%; left: 25%;"></div>
+        <div class="header-sparkle" style="top: 40%; left: 75%;"></div>
+        <div class="header-sparkle" style="top: 60%; left: 85%;"></div>
+        <div class="header-sparkle" style="top: 70%; left: 35%;"></div>
+        <div class="header-sparkle" style="top: 80%; left: 65%;"></div>
+    </header>
+
+    <div class="container">
+        <div class="completion-banner">
+            <div class="trophy-icon">🏆</div>
+            <h2 class="reveal-text">
+                <span style="animation-delay: 0.1s;">C</span>
+                <span style="animation-delay: 0.2s;">O</span>
+                <span style="animation-delay: 0.3s;">N</span>
+                <span style="animation-delay: 0.4s;">G</span>
+                <span style="animation-delay: 0.5s;">R</span>
+                <span style="animation-delay: 0.6s;">A</span>
+                <span style="animation-delay: 0.7s;">T</span>
+                <span style="animation-delay: 0.8s;">U</span>
+                <span style="animation-delay: 0.9s;">L</span>
+                <span style="animation-delay: 1.0s;">A</span>
+                <span style="animation-delay: 1.1s;">T</span>
+                <span style="animation-delay: 1.2s;">I</span>
+                <span style="animation-delay: 1.3s;">O</span>
+                <span style="animation-delay: 1.4s;">N</span>
+                <span style="animation-delay: 1.5s;">S</span>
+                <span style="animation-delay: 1.6s;">!</span>
+            </h2>
+            <p>You've survived all 10 days of the most bizarre, frustrating, and outlandish web experiences ever created. Your browser will never be the same again, and neither will you.</p>
+        </div>
+
+        <h2>Your Final Stats</h2>
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="days-completed">10</div>
+                <div class="stat-label">Days Completed</div>
+                <div class="stat-description">You survived all 10 days of web chaos!</div>
+                <div class="challenge-progress">
+                    <div class="progress-bar" style="width: 100%; background-color: var(--success-color);"></div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" id="challenges-passed">42</div>
+                <div class="stat-label">Challenges Passed</div>
+                <div class="stat-description">You completed 42 out of 50 unique web challenges</div>
+                <div class="challenge-progress">
+                    <div class="progress-bar" style="width: 84%; background-color: var(--accent-color);"></div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" id="patience-score">83%</div>
+                <div class="stat-label">Patience Score</div>
+                <div class="stat-description">Above average! Most users ragequit at 62%</div>
+                <div class="challenge-progress">
+                    <div class="progress-bar" style="width: 83%; background-color: var(--secondary-color);"></div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" id="frustration-survived">9.8/10</div>
+                <div class="stat-label">Frustration Level Survived</div>
+                <div class="stat-description">You're practically a web zen master now</div>
+                <div class="challenge-progress">
+                    <div class="progress-bar" style="width: 98%; background-color: var(--primary-color);"></div>
+                </div>
+            </div>
+        </div>
+
+        <section class="achievements-section">
+            <h2>Your Achievements</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🔍</div>
+                    <div class="achievement-status completed">✓</div>
+                    <h3 class="achievement-title">CSS Detective</h3>
+                    <p class="achievement-description">Survived the invisible buttons and found your way through pixel-perfect challenges</p>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-icon">⏱️</div>
+                    <div class="achievement-status completed">✓</div>
+                    <h3 class="achievement-title">Speed Demon</h3>
+                    <p class="achievement-description">Completed the impossible countdown timer challenges without losing your mind</p>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-icon">🧠</div>
+                    <div class="achievement-status completed">✓</div>
+                    <h3 class="achievement-title">JavaScript Guru</h3>
+                    <p class="achievement-description">Solved the puzzles that made most developers question their career choices</p>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-icon">🐛</div>
+                    <div class="achievement-status completed">✓</div>
+                    <h3 class="achievement-title">Bug Hunter</h3>
+                    <p class="achievement-description">Found and defeated the deliberately placed bugs that haunted our codebase</p>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-icon">🔄</div>
+                    <div class="achievement-status failed">✗</div>
+                    <h3 class="achievement-title">Infinite Scroller</h3>
+                    <p class="achievement-description">Reached the bottom of our never-ending scroll trap (no one has done this yet)</p>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-status completed">✓</div>
+                    <h3 class="achievement-title">Pixel Perfect</h3>
+                    <p class="achievement-description">Completed the millimeter-precise clicking challenges without smashing your screen</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="journey-timeline">
+            <h2>Your 10-Day Journey</h2>
+            <div class="timeline-line"></div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 1</div>
+                <h3 class="timeline-title">The Impossible Button</h3>
+                <p class="timeline-description">A button that actively avoids your cursor, mocks you when you miss, and celebrates if you somehow manage to click it.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 2</div>
+                <h3 class="timeline-title">Text That Runs Away</h3>
+                <p class="timeline-description">Paragraphs of text that scatter in different directions when you try to read them. The longer you try to focus on a sentence, the faster it moves away. If you stop moving your cursor, it slowly returns to normal position.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 3</div>
+                <h3 class="timeline-title">Form From Hell</h3>
+                <p class="timeline-description">A sign-up form where: Fields randomly rearrange themselves while typing. Password requirements change every 5 seconds. Autocomplete suggests the worst possible options. The submit button has a fake loading animation that never completes.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 4</div>
+                <h3 class="timeline-title">The Indecisive Checkbox</h3>
+                <p class="timeline-description">A terms & conditions checkbox that: Unchecks itself randomly. Sometimes checks itself when you didn't click it. Toggles between checked/unchecked when you hover over other elements. Displays increasingly desperate messages begging you to check/uncheck it.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 5</div>
+                <h3 class="timeline-title">Cookie Consent Nightmare</h3>
+                <p class="timeline-description">A cookie consent popup that: Multiplies every time you try to close it. Gets increasingly smaller when you refuse. Follows your cursor like a swarm. Has incredibly verbose legal text that somehow changes meaning each time you read it.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 6</div>
+                <h3 class="timeline-title">The Gaslighting Website</h3>
+                <p class="timeline-description">Elements that subtly change when you're not looking: Text that changes slightly between page views. Background color that shifts imperceptibly over time. Images that look normal but slowly rotate. Navigation links that go to different places each time.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 7</div>
+                <h3 class="timeline-title">Aggressive Parallax</h3>
+                <p class="timeline-description">Scrolling experience where: Elements move at wildly different speeds. Things occasionally scroll in the opposite direction. Random elements zoom toward your cursor. Scrolling sometimes accelerates uncontrollably.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 8</div>
+                <h3 class="timeline-title">The Phantom Shopping Cart</h3>
+                <p class="timeline-description">A shopping experience where: You can add items that don't exist. Cart randomly adds/removes products. Prices fluctuate while browsing. Checkout button leads to a 404 page with a sad face.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 9</div>
+                <h3 class="timeline-title">Cursor Chaos</h3>
+                <p class="timeline-description">Custom cursor behaviors including: Multiple fake cursors that follow your real cursor with delay. Cursor that leaves a permanent trail of smaller cursors. Cursor that occasionally "sneezes," scattering tiny cursor particles. Elements that are repelled by or attracted to your cursor like magnets.</p>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-day">Day 10</div>
+                <h3 class="timeline-title">The Ultimate Finale</h3>
+                <p class="timeline-description">When clicked, it reveals a perfectly normal, boring website with a message: "Congratulations, you've survived The Web Wasn't Ready For This!"</p>
+            </div>
+        </section>
+
+        <section class="certificate-section">
+            <h2>Certificate of Completion</h2>
+            <div class="certificate">
+                <div class="certificate-header">Certificate of Achievement</div>
+                <div class="certificate-subheader">This certifies that</div>
+                <div class="certificate-name">Brave Web Explorer</div>
+                <div class="certificate-text">Has successfully completed all 10 days of "The Web Wasn't Ready For This" challenge series, demonstrating extraordinary patience, determination, and a superhuman tolerance for poorly designed user interfaces.</div>
+                <div class="certificate-seal">WWR</div>
+                <div class="certificate-date">April 27, 2025</div>
+            </div>
+        </section>
+
+        <section class="feedback-section">
+            <h2>Share Your Experience</h2>
+            <p>How was your journey through the 10 days of web madness? We'd love to hear your thoughts!</p>
+            <div class="feedback-form">
+                <div class="form-group">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Your Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">How would you rate your experience?</label>
+                    <div class="rating-container">
+                        <span class="rating-star" data-rating="1">★</span>
+                        <span class="rating-star" data-rating="2">★</span>
+                        <span class="rating-star" data-rating="3">★</span>
+                        <span class="rating-star" data-rating="4">★</span>
+                        <span class="rating-star" data-rating="5">★</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="feedback" class="form-label">Your Feedback</label>
+                    <textarea id="feedback" class="form-control" rows="5" placeholder="Tell us what you loved (or hated) the most..."></textarea>
+                </div>
+                <button type="submit" class="btn">Submit Feedback</button>
+            </div>
+        </section>
+
+        <section class="share-section">
+            <h2>Share Your Achievement</h2>
+            <p>Let the world know that you survived the web's most chaotic challenge!</p>
+            <div class="social-links">
+                <a href="#" class="social-link twitter">𝕏</a>
+                <a href="#" class="social-link facebook">f</a>
+                <a href="#" class="social-link linkedin">in</a>
+                <a href="#" class="social-link reddit">r</a>
+            </div>
+        </section>
+    </div>
+
+    <div class="theme-toggle" id="theme-toggle">🌓</div>
+
+    <footer>
+        <div>Created with 😈 by The Web Torture Department</div>
+        <div class="footer-text">If you actually completed all 10 days, consider a career in QA testing or digital masochism.</div>
+        <div><a href="#" class="footer-link">Terms & Conditions</a> | <a href="#" class="footer-link">Privacy Policy</a></div>
+    </footer>
+
+    <script>
+        // Create confetti effect
+        function createConfetti() {
+            const confettiCount = 200;
+            const container = document.body;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 5 + 5;
+                const colors = ['#ff3366', '#33cc99', '#6633cc', '#ffcc00', '#66cc33'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Apply styles
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.left = `${left}%`;
+                confetti.style.backgroundColor = color;
+                confetti.style.animationDuration = `${duration}s`;
+                confetti.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(confetti);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, (duration + delay) * 1000);
+            }
+        }
+
+        // Create sparkles for header
+        function animateHeaderSparkles() {
+            const sparkles = document.querySelectorAll('.header-sparkle');
+            sparkles.forEach(sparkle => {
+                setInterval(() => {
+                    const size = Math.random() * 3 + 3;
+                    sparkle.style.width = `${size}px`;
+                    sparkle.style.height = `${size}px`;
+                }, 2000);
+            });
+        }
+
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#ff3366', '#33cc99', '#6633cc', '#ffcc00', '#66cc33'];
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 15 + 5;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${x}%`;
+                particle.style.top = `${y}%`;
+                particle.style.backgroundColor = color;
+                particle.style.borderRadius = '50%';
+                particle.style.animationDuration = `${duration}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Animate stat counters
+        function animateStats() {
+            const daysCompleted = document.getElementById('days-completed');
+            const challengesPassed = document.getElementById('challenges-passed');
+            const patienceScore = document.getElementById('patience-score');
+            const frustrationSurvived = document.getElementById('frustration-survived');
+            
+            let daysCount = 0;
+            let challengesCount = 0;
+            let patienceCount = 0;
+            let frustrationCount = 0;
+            
+            const daysInterval = setInterval(() => {
+                daysCount++;
+                daysCompleted.textContent = daysCount;
+                if (daysCount >= 10) clearInterval(daysInterval);
+            }, 200);
+            
+            const challengesInterval = setInterval(() => {
+                challengesCount++;
+                challengesPassed.textContent = challengesCount;
+                if (challengesCount >= 42) clearInterval(challengesInterval);
+            }, 50);
+            
+            const patienceInterval = setInterval(() => {
+                patienceCount++;
+                patienceScore.textContent = `${patienceCount}%`;
+                if (patienceCount >= 83) clearInterval(patienceInterval);
+            }, 30);
+            
+            const frustrationInterval = setInterval(() => {
+                frustrationCount += 0.1;
+                frustrationSurvived.textContent = `${frustrationCount.toFixed(1)}/10`;
+                if (frustrationCount >= 9.8) clearInterval(frustrationInterval);
+            }, 100);
+        }
+
+        // Handle dark mode toggle
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌓';
+            });
+        }
+
+        // Handle rating stars
+        function setupRatingStars() {
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    stars.forEach(s => {
+                        const sRating = parseInt(s.getAttribute('data-rating'));
+                        if (sRating <= rating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        // Run all animations and setup functions
+        window.addEventListener('load', () => {
+            createConfetti();
+            animateHeaderSparkles();
+            createParticles();
+            animateStats();
+            setupThemeToggle();
+            setupRatingStars();
+            
+            // Progressively reveal elements
+            const progressBars = document.querySelectorAll('.progress-bar');
+            setTimeout(() => {
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+            
+            // Add some sparkles to achievement cards
+            const achievementCards = document.querySelectorAll('.achievement-card');
+            achievementCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    for (let i = 0; i < 5; i++) {
+                        const sparkle = document.createElement('div');
+                        sparkle.className = 'sparkle';
+                        
+                        const left = Math.random() * 100;
+                        const top = Math.random() * 100;
+                        
+                        sparkle.style.left = `${left}%`;
+                        sparkle.style.top = `${top}%`;
+                        
+                        card.appendChild(sparkle);
+                        
+                        setTimeout(() => {
+                            sparkle.remove();
+                        }, 2000);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
